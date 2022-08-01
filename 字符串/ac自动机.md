@@ -13,7 +13,7 @@ void insert(){
 	}
 	cnt[u]++;
 }
-void build(){
+void build(){//build之后q数组里就是拓扑序
 	hh=0,tt=-1;
 	for(int i=0;i<26;i++)
 		if(tr[0][i])

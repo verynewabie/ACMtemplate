@@ -46,7 +46,7 @@ int rebuild(int l,int r,int k){
 	pushup(u);
 	return u;
 }
-void maintain(int &u,int k){
+void maintain(int &u,int k){//均摊O(log n)
 	if(tr[u].sz*gap<tr[ls].sz||tr[u].sz*gap<tr[rs].sz)
 		getseq(u,0),u=rebuild(1,tot,k);	
 }
@@ -86,7 +86,7 @@ bool in(point p,int x0,int y0,int x1,int y1){//某点是否在该矩阵中
 bool out(node u,int x0,int y0,int x1,int y1){//某矩阵是否在该矩阵外
 	return u.x0>x1||u.y0>y1||u.x1<x0||u.y1<y0;	
 }
-int query(int u,int x0,int y0,int x1,int y1){
+int query(int u,int x0,int y0,int x1,int y1){//O(sqrt(n))
 	if(in(tr[u],x0,y0,x1,y1)) return tr[u].sum;
 	else if(out(tr[u],x0,y0,x1,y1)) return 0;
 	int res=0;
