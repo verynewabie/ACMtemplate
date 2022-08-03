@@ -77,6 +77,8 @@ void NTT(int* A,int type){
 }//代码实现上和FFT相差无几
 void poly_mul(int* a, int* b,int deg){//a是0~n次的数组,b是0~m次的数组,deg是n+m
 	for(limit=1,L=0;limit<=deg;limit<<=1)L++;
+	//for (int i = n + 1; i < limit; i++) a[i] = 0;
+	//for (int i = m + 1; i < limit; i++) b[i] = 0;
 	for(int i=0;i<limit;i++)R[i]=(R[i>>1]>>1)|((i&1)<<(L-1));
 	NTT(a,1);
 	NTT(b,1);
