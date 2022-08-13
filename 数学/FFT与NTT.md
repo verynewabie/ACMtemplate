@@ -1,47 +1,55 @@
 ## FFT
 
 ```c++
-const double PI = acos(-1);
+const double PI=acos(-1);
 int lena,lenb;
 struct Complex{
-	double x, y;
-	Complex operator+ (const Complex& t) const{
-		return {x + t.x, y + t.y};
+	double x,y;
+	Complex operator+(const Complex& t)const{
+		return {x+t.x,y+t.y};
 	}
-	Complex operator- (const Complex& t) const{
-		return {x - t.x, y - t.y};
+	Complex operator-(const Complex& t)const{
+		return {x-t.x,y-t.y};
 	}
-	Complex operator* (const Complex& t) const{
-		return {x * t.x - y * t.y, x * t.y + y * t.x};
+	Complex operator*(const Complex& t)const{
+		return {x*t.x-y*t.y,x*t.y+y*t.x};
 	}
-}a[N], b[N];
-int rev[N], bit, tot, ans[N];
-void FFT(Complex* a, int inv){
-	for (int i = 0; i < tot; i ++ )
-		if (i < rev[i])
-			swap(a[i], a[rev[i]]);
-	for (int mid = 1; mid < tot; mid <<= 1){
-		auto w1 = Complex({cos(PI / mid), inv * sin(PI / mid)});
-		for (int i = 0; i < tot; i += mid * 2){
-			auto wk = Complex({1, 0});
-			for (int j = 0; j < mid; j ++, wk = wk * w1){
-				auto x = a[i + j], y = wk * a[i + j + mid];
-				a[i + j] = x + y, a[i + j + mid] = x - y;
+}a[N],b[N];
+int rev[N],bit,tot,ans[N];
+void FFT(Complex* a,int inv){
+	for(int i=0;i<tot;i++)
+		if(i<rev[i])
+			swap(a[i],a[rev[i]]);
+	for(int mid=1;mid<tot;mid<<=1){
+		auto w1=Complex({cos(PI/mid),inv*sin(PI/mid)});
+		for(int i=0;i<tot;i+=mid*2){
+			auto wk=Complex({1,0});
+			for(int j=0;j<mid;j++,wk=wk*w1){
+				auto x=a[i+j],y=wk*a[i+j+mid];
+				a[i+j]=x+y,a[i+j+mid]=x-y;
 			}
 		}
 	}
 }
-void poly_mul(Complex* a, Complex* b, int len){//len是lena+lenb+1
-	bit = 0;
-	while ((1 << bit) < len) bit ++;
-	tot = 1 << bit;
-	for (int i = 0; i < tot; i ++ )
-		rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bit - 1));
-	FFT(a, 1), FFT(b, 1);
-	for (int i = 0; i < tot; i ++ ) a[i] = a[i] * b[i];
-	FFT(a, -1);
-	for (int i = 0; i < len; i ++ )
-		ans[i] = (int)(a[i].x / tot + 0.5));
+void poly_mul(int* s,int* t,int len){//len是lena+lenb+1
+    for(int i=0;i<=lena;i++)
+        a[i].x=s[i],a[i].y=0;
+    for(int i=0;i<=lenb;i++)
+        b[i].x=t[i],b[i].y=0;
+	bit=0;
+	while((1<<bit)<len) bit++;
+	tot=1<<bit;
+    for(int i=lena+1;i<tot;i++)
+        a[i].x=a[i].y=0;
+    for(int i=lenb+1;i<tot;i++)
+        b[i].x=b[i].y=0;
+	for(int i=0;i<tot;i++)
+		rev[i]=(rev[i>>1]>>1)|((i&1)<<(bit-1));
+	FFT(a,1),FFT(b,1);
+	for(int i=0;i<tot;i++) a[i]=a[i]*b[i];
+	FFT(a,-1);
+	for(int i=0;i<len;i++)
+		ans[i]=(int)(a[i].x/tot+0.5);
 }
 ```
 
@@ -77,8 +85,8 @@ void NTT(int* A,int type){
 }//代码实现上和FFT相差无几
 void poly_mul(int* a, int* b,int deg){//a是0~lena次的数组,b是0~lenb次的数组,deg是lena+lenb
 	for(limit=1,L=0;limit<=deg;limit<<=1)L++;
-	//for (int i = lena + 1; i < limit; i++) a[i] = 0;
-	//for (int i = lenb + 1; i < limit; i++) b[i] = 0;
+	for(int i=lena+1;i<limit;i++) a[i]=0;
+	for(int i=lenb+1;i<limit;i++) b[i]=0;
 	for(int i=0;i<limit;i++)R[i]=(R[i>>1]>>1)|((i&1)<<(L-1));
 	NTT(a,1);
 	NTT(b,1);
