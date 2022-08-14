@@ -1,3 +1,5 @@
+## splay版本
+
 ```c++
 struct Splay{
     int s[2],p,v;
@@ -90,5 +92,11 @@ cut(x,y);
 splay(x);
 tr[x].v=y;
 pushup(x);
+```
+
+## fhq-treap版本
+
+```cpp
+
 ```
 
