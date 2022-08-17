@@ -1,15 +1,27 @@
 ```cpp
-const int mod1=1610612741,mod2=1e9+7,base1=131,base2=127;
-ll hash1[N],hash2[N],b1[N],b2[N];
+#define x first
+#define y second
+using ll=long long;
+using pii=pair<int,int>;
+using pll=pair<ll,ll>;
+pii mod={1610612741,1e9+7},base={127,131};
+pll has[N],b[N];
+char s[N];
 pii gethash(int l,int r){
-    return {(hash1[r]-hash1[l-1]*b1[r-l+1]%mod1+mod1)%mod1,(hash2[r]-hash2[l-1]*b2[r-l+1]%mod2+mod2)%mod2};
-} 
-b1[0]=b2[0]=1;
-for(int i=1;i<=n;i++){
-    hash1[i]=(hash1[i-1]*base1+s[i])%mod1;
-    hash2[i]=(hash2[i-1]*base2+s[i])%mod2;
-    b1[i]=b1[i-1]*base1%mod1;
-    b2[i]=b2[i-1]*base2%mod2;
+    pii res;
+    res.x=(has[r].x-has[l-1].x*b[r-l+1].x%mod.x+mod.x)%mod.x;
+    res.y=(has[r].y-has[l-1].y*b[r-l+1].y%mod.y+mod.y)%mod.y;
+    return res;
+}
+int main(){
+    b[0]={1,1};
+    cin>>s+1;
+    for(int i=1;i<=n;i++){
+        has[i].x=(has[i-1].x*base.x+s[i])%mod.x;
+        has[i].y=(has[i-1].y*base.y+s[i])%mod.y;
+        b[i].x=b[i-1].x*base.x%mod.x;
+        b[i].y=b[i-1].y*base.y%mod.y;
+    }
 }
 ```
 

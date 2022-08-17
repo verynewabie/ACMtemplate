@@ -5,7 +5,7 @@ struct Node{//每个节点
     int ch[26];
 }node[N];//N的大小为二倍的字符串长度,node[1].len=node[1].fa=0
 char s[N];
-int f[N];//f[i]代表i这个状态的endpos的集合大小,f[1]=5
+int f[N];//f[i]代表i这个状态的endpos的集合大小
 int h[N],e[M],ne[M],idx;//M大小为字符串长度的三倍,求f才用
 void add(int a,int b){//求f才用
 	e[idx]=b,ne[idx]=h[a],h[a]=idx++;
@@ -42,8 +42,8 @@ int main(){
     return 0;
 }
 //不同子串的个数
-LL ans[N];//ans[1]即为答案
-LL dfs(int x){
+ll ans[N];//ans[1]即为答案
+ll dfs(int x){
 	if(ans[x]) return ans[x];
 	for(int i=0;i<26;i++) if(node[x].ch[i]) ans[x]+=dfs(node[x].ch[i])+1;
 	return ans[x];
