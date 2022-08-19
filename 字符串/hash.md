@@ -28,8 +28,8 @@ void init(int tot){
 ```cpp
 struct hashfunc{
     template<typename T,typename U>
-    size_t operator()(const pair<T,U> &i)const{
-        return hash<T>()(i.first) ^ hash<U>()(i.second);//这里的哈希方法是分别调用第一个参数的哈希函数和第二个参数的哈希函数做异或
+    size_t operator()(const pair<T,U> &a)const{
+        return hash<T>()(a.first) ^ hash<U>()(a.second);//这里的哈希方法是分别调用第一个参数的哈希函数和第二个参数的哈希函数做异或
     }
 };
 unordered_map<pair<int,int>,int,hashfunc> cast;

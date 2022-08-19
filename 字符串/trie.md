@@ -13,50 +13,52 @@
 	    if(!tr[u][j]) tr[idx][0]=tr[idx][1]=0,tr[u][j]=idx++;
 	    u=tr[u][j];
 	}
+	或者
+	for(int i=0;i<=idx;i++) tr[i][0]=tr[i][1]=0;
+	idx=0;
 */
-const int maxn=1e5+10;
-int n,a[maxn*31][2],res,index;
+int n,tr[N*31][2],idx;
 void insert(int x){
-	int p=0;
+	int u=0;
 	for(int i=30;i>=0;i--){
 		int tmp=x>>i&1;
-		if(!a[p][tmp])  a[p][tmp]=++index;
-		p=a[p][tmp];
+		if(!tr[u][tmp])  tr[u][tmp]=++idx;
+		u=tr[u][tmp];
 	}
 }
 int query(int x){
-	int p=0,res=0;
+	int u=0,res=0;
 	for(int i=30;i>=0;i--){
 		int tmp=x>>i&1;
-		if(a[p][!tmp]){
+		if(tr[u][!tmp]){
 			res+=1<<i;
-			p=a[p][!tmp];
+			u=tr[u][!tmp];
 		} 
-		else p=a[p][tmp];
+		else u=tr[u][tmp];
 	}
 	return res;
 }
 //trie
 const int N=1e5+10;
-int t[N][26],idx=1,cnt[N];
+int tr[N][26],idx=1,cnt[N];
 char s[N],tmp;
 void insert(){
-	int p=0;
+	int u=0;
 	for(int i=0;s[i];i++){
 		int tmp=s[i]-'a';
-		if(!t[p][tmp]) t[p][tmp]=idx++;
-		p=t[p][tmp];
+		if(!tr[u][tmp]) tr[u][tmp]=idx++;
+		u=tr[u][tmp];
 	}
-	cnt[p]++;
+	cnt[u]++;
 }
 int query(){
-	int p=0;
+	int u=0;
 	for(int i=0;s[i];i++){
 		int tmp=s[i]-'a';
-		if(!t[p][tmp]) return 0;
-		p=t[p][tmp];
+		if(!tr[u][tmp]) return 0;
+		u=tr[u][tmp];
 	}
-	return cnt[p];
+	return cnt[u];
 }
 ```
 
