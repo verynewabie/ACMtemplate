@@ -40,13 +40,13 @@ int query(int x){
 }
 //trie
 const int N=1e5+10;
-int tr[N][26],idx=1,cnt[N];
-char s[N],tmp;
+int tr[N][26],idx,cnt[N];
+char s[N];
 void insert(){
 	int u=0;
 	for(int i=0;s[i];i++){
 		int tmp=s[i]-'a';
-		if(!tr[u][tmp]) tr[u][tmp]=idx++;
+		if(!tr[u][tmp]) tr[u][tmp]=++idx;
 		u=tr[u][tmp];
 	}
 	cnt[u]++;
