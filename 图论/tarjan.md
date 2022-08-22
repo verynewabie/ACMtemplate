@@ -1,7 +1,7 @@
 ## 有向图缩点
 
 ```c++
-int cnt,s[N],timestamp,id[N],stk[N],top,dfn[N],low[N];
+int cnt,sz[N],timestamp,id[N],stk[N],top,dfn[N],low[N];
 vector<int> to[N];
 bool st[N];
 void tarjan(int u){
@@ -21,7 +21,7 @@ void tarjan(int u){
             tmp=stk[top--];
             st[tmp]=0;
             id[tmp]=cnt;
-            s[cnt]++;
+            sz[cnt]++;
         }while(tmp!=u);
     }
 }
