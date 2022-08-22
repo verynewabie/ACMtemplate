@@ -29,7 +29,7 @@ void init(int tot){
 struct hashfunc{
     template<typename T,typename U>
     size_t operator()(const pair<T,U> &a)const{
-        return hash<T>()(a.first) ^ hash<U>()(a.second);//这里的哈希方法是分别调用第一个参数的哈希函数和第二个参数的哈希函数做异或
+        return hash<T>()(a.first)^hash<U>()(a.second);//这里的哈希方法是分别调用第一个参数的哈希函数和第二个参数的哈希函数做异或
     }
 };
 unordered_map<pair<int,int>,int,hashfunc> cast;

@@ -30,8 +30,21 @@ void build(){//build之后q数组里就是拓扑序
 	}
 }
 //trie图
+struct node{
+	int ch[26],fail;
+	bool end;
+}tr[N];
+void insert(){
+	int u=0;
+	for(int i=0;s[i];i++){
+		int tmp=s[i]-'a';
+		if(!tr[u].ch[tmp]) tr[u].ch[tmp]=++idx;
+		u=tr[u].ch[tmp];
+	}
+	tr[u].end=1;
+}
 void build(){//build之后q数组里就是拓扑序
-	hh=0,tt=-1;
+	int hh=0,tt=-1;
 	for(int i=0;i<26;i++)
 		if(tr[0].ch[i])
 			q[++tt]=tr[0].ch[i];
