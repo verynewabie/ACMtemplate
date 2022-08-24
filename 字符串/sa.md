@@ -53,7 +53,7 @@ namespace SA{
 	//sa:排名对应编号
 	//rk:编号对应排名
 	//c:桶
-	//height:编号为i的后缀与它前一名的lcp
+	//height:排名为i的后缀与它前一名的lcp
 	//x:编号对应排名
 	//y:排名对应编号
 	void sort(){//x为第一关键字,y为第二关键字排序
@@ -85,6 +85,7 @@ namespace SA{
 	}
 	void get_height(){
 		for(int i=1;i<=n;i++) rk[sa[i]]=i;
+        //设h[i]为height[rk[i]],即编号为i的后缀与它前一名的lcp,h[i]>=h[i-1]-1;
 		for(int i=1,k=0;i<=n;i++){
 			if(rk[i]==1) continue;
 			if(k) k--;
