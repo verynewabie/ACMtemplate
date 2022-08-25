@@ -95,5 +95,63 @@ namespace SA{
 		}
 	}
 }
+//树上后缀排序,每个点的字符串为它到根的路径上的,相同字符串编号小的在前
+#include<bits/stdc++.h>
+using namespace std;
+const int N=5e5+10;
+int n,m,fa[N][21];
+char s[N];
+namespace SA{
+	int sa[N],rk[N],c[N],x[N],y[N],rk_p[N],z[N];
+	//sa:排名对应编号
+	//rk:编号对应排名
+	//c:桶
+	//x:编号对应排名
+	//y:排名对应编号
+	//sz:第一关键字范围
+	void sort(int* x,int* y,int* sa,int sz){//x为第一关键字,y为第二关键字排序
+		for(int i=0;i<=sz;i++) c[i]=0;
+		for(int i=1;i<=n;i++) c[x[i]]++;
+		for(int i=1;i<=sz;i++) c[i]+=c[i-1];
+		for(int i=n;i;i--) sa[c[x[y[i]]]--]=y[i];
+	}
+	bool check(int i,int k){
+		return y[sa[i-1]]==y[sa[i]]&&y[fa[sa[i-1]][k]]==y[fa[sa[i]][k]];
+	}
+	void get_sa(){
+		int num=0;
+		for(int i=1;i<=n;i++) z[i]=s[i],y[i]=i;
+		sort(z,y,sa,m);//先按第一个字母和顺序排
+		x[sa[1]]=rk[sa[1]]=num=1;
+		for(int i=2;i<=n;i++){
+			x[sa[i]]=z[sa[i-1]]==z[sa[i]]?num:++num;
+			rk[sa[i]]=i;
+		}
+		for(int k=1,p=0;k<n;k<<=1,p++){
+			for(int i=1;i<=n;i++) rk_p[i]=rk[fa[i][p]];//第一关键字的顺序
+			sort(rk_p,sa,y,n);//父亲排名为第一关键字,自己排名为第二关键字
+			sort(x,y,sa,num);//若两个字符串相同,按父亲排名,否则按自己排名
+			swap(x,y);
+			x[sa[1]]=rk[sa[1]]=num=1;
+			for(int i=2;i<=n;i++){
+				x[sa[i]]=check(i,p)?num:++num;
+				rk[sa[i]]=i;
+			}
+		}
+	}
+}
+int main(){
+	scanf("%d",&n);
+	for(int i=2;i<=n;i++){
+		scanf("%d",&fa[i][0]);
+		for(int k=1;k<21;k++)
+			fa[i][k]=fa[fa[i][k-1]][k-1];
+	}
+	scanf("%s",s+1);
+	m='z';
+	SA::get_sa();
+	for(int i=1;i<=n;i++) cout<<SA::sa[i]<<" \n"[i==n];
+	return 0;
+}
 ```
 
