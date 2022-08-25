@@ -47,7 +47,7 @@ int main(){
 
 //另一种写法
 int n,m;
-char s[N];
+char s[N];//字符不要从0开始
 namespace SA{
 	int sa[N],rk[N],c[N],height[N],x[N],y[N];
 	//sa:排名对应编号
