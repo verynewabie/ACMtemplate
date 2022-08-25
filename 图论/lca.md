@@ -23,7 +23,7 @@ void bfs(int root){
         }
     }
 }
-int lca(int a,int b){
+int lca(int a,int b){//一堆节点的lca为dfn最小的和dfn最大的两个点的lca
     if(depth[a]<depth[b]) swap(a,b);
     for(int k=K-1;k>=0;k--){
         if(depth[fa[a][k]]>=depth[b]){
