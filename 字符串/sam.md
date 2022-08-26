@@ -12,7 +12,7 @@ void add(int a,int b){//求f才用
 }
 void extend(int c){//这个函数我是真的不懂,反正从前往后依次插入每个字符即可
     int p=last,np=last=++tot;
-    f[tot]=1;
+    f[tot]=1;//tot节点就是该字符串的一个前缀
     node[np].len=node[p].len+1;
     for(;p&&!node[p].ch[c];p=node[p].fa) node[p].ch[c]=np;
     if(!p) node[np].fa=1;
@@ -42,9 +42,10 @@ int main(){
     return 0;
 }
 //不同子串的个数
-ll ans[N];//ans[1]即为答案
-ll dfs(int x){
-	if(ans[x]) return ans[x];
+//ans[i]即代表从i点开始走,不包括i点自己的子串数
+ll dfs(int x){//dfs(1)后ans[1]即为答案
+	if(~ans[x]) return ans[x];
+    ans[x]=0;
 	for(int i=0;i<26;i++) if(node[x].ch[i]) ans[x]+=dfs(node[x].ch[i])+1;
 	return ans[x];
 }
