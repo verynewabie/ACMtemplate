@@ -164,9 +164,8 @@ struct SA{
 	//height:排名为i的后缀与它前一名的lcp
 	//x:编号对应排名
 	//y:排名对应编号
-	void clear(){
-		memset(x,0,sizeof(int)*(n+1));
-		memset(y,0,sizeof(int)*(n+1));
+	void init(){//最多只会越界1个位置
+		x[n+1]=y[n+1]=0;
 	}
 	void sort(){//x为第一关键字,y为第二关键字排序
 		for(int i=1;i<=m;i++) c[i]=0;
