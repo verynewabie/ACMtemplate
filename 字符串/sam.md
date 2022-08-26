@@ -6,9 +6,9 @@ struct Node{//每个节点
 }node[N];//N的大小为二倍的字符串长度,node[1].len=node[1].fa=0
 char s[N];
 int f[N];//f[i]代表i这个状态的endpos的集合大小
-int h[N],e[M],ne[M],idx;//M大小为字符串长度的三倍,求f才用
-void add(int a,int b){//求f才用
-	e[idx]=b,ne[idx]=h[a],h[a]=idx++;
+int h[N],e[M],ne[M],idx;//转移数不会超过3倍的字符串长度
+void add(int a,int b){
+	e[++idx]=b,ne[idx]=h[a],h[a]=idx;
 }
 void extend(int c){//这个函数我是真的不懂,反正从前往后依次插入每个字符即可
     int p=last,np=last=++tot;
@@ -27,27 +27,31 @@ void extend(int c){//这个函数我是真的不懂,反正从前往后依次插�
         }
     }
 }
-void dfs(int u){//求f才用
-    for(int i=h[u];~i;i=ne[i]){
+void dfs(int u){
+    for(int i=h[u];i;i=ne[i]){
         dfs(e[i]);
         f[u]+=f[e[i]];
     }
 }
 int main(){
-    memset(h,-1,sizeof h);
     scanf("%s",s);
-    for(int i=0;s[i];i++) extend(s[i]-'a');
+    for(int i=0;s[i];i++){
+        extend(s[i]-'a');
+        //ed[last]=i;//记录对应点
+    }
     for(int i=2;i<=tot;i++) add(node[i].fa,i);
-    dfs(1);//求f
+    dfs(1);
     return 0;
 }
 //不同子串的个数
 //ans[i]即代表从i点开始走,不包括i点自己的子串数
+ll ans[N];
+bool vis[N];
 ll dfs(int x){//dfs(1)后ans[1]即为答案
-	if(~ans[x]) return ans[x];
-    ans[x]=0;
-	for(int i=0;i<26;i++) if(node[x].ch[i]) ans[x]+=dfs(node[x].ch[i])+1;
-	return ans[x];
+    if(vis[x]) return ans[x];
+    vis[x]=1;
+    for(int i=0;i<26;i++) if(node[x].ch[i]) ans[x]+=dfs(node[x].ch[i])+1;
+    return ans[x];
 }
 
 //每个子串出现的次数
@@ -66,5 +70,17 @@ for(int i=0;s[i];i++){
     else p=1,t=0;
     ans=max(ans,t);
 }
+//求经过每一个点的子串个数(子串相同但位置不同的也算)
+ll ans[N];//初始时ans[i]=f[i],ans[1]=f[1]=0
+bool vis[N];
+ll dfscnt(int u){
+	if(vis[u]) return ans[u];
+	vis[u]=1;
+	for(int i=0;i<26;i++)
+		if(node[u].ch[i])
+			ans[u]+=dfscnt(node[u].ch[i]);
+	return ans[u];
+}
+//两个前缀的最长公共后缀就是这两点fail树上的lca(两点相同的情况特殊)
 ```
 
