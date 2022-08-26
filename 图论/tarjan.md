@@ -35,8 +35,8 @@ int main(){
 ## 无向图点双
 
 ```c++
-int cnt,timestamp,stk[N],top,dfn[N],low[N],num,id[N];
-vector<int> to[N],toc[N*2],dcc[N];
+int cnt,timestamp,stk[N],top,dfn[N],low[N],num,id[N];//多测清top
+vector<int> to[N],toc[N*2],dcc[N*2];
 bool cut[N];
 void tarjan(int u){
     dfn[u]=low[u]=++timestamp;
@@ -61,8 +61,8 @@ void tarjan(int u){
                 }while(tmp!=j);
                 dcc[cnt].push_back(u);
             }
-            else low[u]=min(low[u],dfn[j]);
         }
+        else low[u]=min(low[u],dfn[j]);
     }
 }
 void init(){
@@ -73,11 +73,11 @@ void init(){
     for(int i=1;i<=cnt;i++)
         for(int j=0;j<dcc[i].size();j++){
             int u=dcc[i][j];
-            if(cut[u]) toc[i].push_back(id[u]),toc[id[u]].push_back(i);
+            if(cut[u]) toc[i].push_back(id[u]),toc[id[u]].push_back(i);//建新图
             else id[u]=i;//非割点属于第i个点双
         }
 }
-int main(){
+int main(){//注意,遇到自环要continue
     for(int i=1;i<=n;i++)
         if(!dfn[i])
             tarjan(i);
