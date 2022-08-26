@@ -156,8 +156,9 @@ int main(){
 //结构体写法
 struct SA{
 	int sa[N],rk[N],c[N],height[N],x[N],y[N];
-	int mi[N][M],n,m;
-	char s[N];//字符不要从0开始
+    //int mi[N][M];
+    int n,m;
+    char s[N];//字符不要从0开始
 	//sa:排名对应编号
 	//rk:编号对应排名
 	//c:桶
@@ -205,19 +206,19 @@ struct SA{
 			height[rk[i]]=k;
 		}
 	}
-	void buildST(){
-		for(int i=1;i<=n;i++) mi[i][0]=height[i];
-		for(int i=1;i<16;i++)
-			for(int j=1;j+(1<<i)-1<=n;j++)
-				mi[j][i]=min(mi[j][i-1],mi[j+(1<<i-1)][i-1]);
-	}
-	int query(int l,int r){//查询l开头的后缀和r开头的后缀的lcp
-		int a=rk[l],b=rk[r];
-		l=min(a,b)+1;
-		r=max(a,b);
-		int len=log_2[r-l+1];
-		return min(mi[l][len],mi[r-(1<<len)+1][len]);
-	}
+	//void buildST(){
+	//	for(int i=1;i<=n;i++) mi[i][0]=height[i];
+	//	for(int i=1;i<16;i++)
+	//		for(int j=1;j+(1<<i)-1<=n;j++)
+	//			mi[j][i]=min(mi[j][i-1],mi[j+(1<<i-1)][i-1]);
+	//}
+	//int query(int l,int r){//查询l开头的后缀和r开头的后缀的lcp
+	//	int a=rk[l],b=rk[r];
+	//	l=min(a,b)+1;
+	//	r=max(a,b);
+	//	int len=log_2[r-l+1];
+	//	return min(mi[l][len],mi[r-(1<<len)+1][len]);
+	//}
 };
 ```
 
