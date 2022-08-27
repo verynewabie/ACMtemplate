@@ -3,27 +3,31 @@ int tot=1,last=1;//tot是总点数,last是上一个插入的点,空节点编号�
 struct Node{//每个节点
     int len,fa;//len表示该状态的最长子串的长度,fa是它绿边连向的父亲
     int ch[26];
-}node[N];//N的大小为二倍的字符串长度,node[1].len=node[1].fa=0
+    //firstpos代表endpos里最小的一个
+    //int firstpos;
+}node[N];//N的大小为二倍的字符串长度,node[1].len=node[1].fa=0,转移数不会超过3倍的字符串长度
 char s[N];
 int f[N];//f[i]代表i这个状态的endpos的集合大小
 int h[N],e[M],ne[M],idx;//转移数不会超过3倍的字符串长度
 void add(int a,int b){
 	e[++idx]=b,ne[idx]=h[a],h[a]=idx;
 }
-void extend(int c){//这个函数我是真的不懂,反正从前往后依次插入每个字符即可
+void extend(int c){
     int p=last,np=last=++tot;
     f[tot]=1;//tot节点就是该字符串的一个前缀
     node[np].len=node[p].len+1;
-    for(;p&&!node[p].ch[c];p=node[p].fa) node[p].ch[c]=np;
-    if(!p) node[np].fa=1;
+    //node[np].firstpos=node[np].len-1;//下标从0开始
+    //node[np].firstpos=node[np].len;//下标从1开始
+    for(;p&&!node[p].ch[c];p=node[p].fa) node[p].ch[c]=np;//从p开始跳fa,并向新点连边直到原本边就存在
+    if(!p) node[np].fa=1;//路上所有点都不存在向c的边,那么把新点的fa置为1
     else{
-        int q=node[p].ch[c];
-        if(node[q].len==node[p].len+1) node[np].fa=q;
+        int q=node[p].ch[c];//否则找到走到的状态
+        if(node[q].len==node[p].len+1) node[np].fa=q;//看p与q的len的差值
         else{
-            int nq=++tot;
+            int nq=++tot;//否则新建一个
             node[nq]=node[q],node[nq].len=node[p].len+1;
             node[q].fa=node[np].fa=nq;
-            for(;p&&node[p].ch[c]==q;p=node[p].fa) node[p].ch[c]=nq;
+            for(;p&&node[p].ch[c]==q;p=node[p].fa) node[p].ch[c]=nq;//把链上的边都指向nq
         }
     }
 }
@@ -37,14 +41,13 @@ int main(){
     scanf("%s",s);
     for(int i=0;s[i];i++){
         extend(s[i]-'a');
-        //ed[last]=i;//记录对应点
     }
     for(int i=2;i<=tot;i++) add(node[i].fa,i);
     dfs(1);
     return 0;
 }
 //不同子串的个数
-//ans[i]即代表从i点开始走,不包括i点自己的子串数
+//ans[i]即以它能到达的点为结尾的子串数
 ll ans[N];
 bool vis[N];
 ll dfs(int x){//dfs(1)后ans[1]即为答案
@@ -82,5 +85,10 @@ ll dfscnt(int u){
 	return ans[u];
 }
 //两个前缀的最长公共后缀就是这两点fail树上的lca(两点相同的情况特殊)
+//要找所有终止状态,只需加完字符串后从last跳fa即可
+//排完之后就是fail树的bfs序/自动机的拓扑序
+for(int i=1;i<=node;i++) cnt[node[i].len]++;
+for(int i=1;i<=node;i++) cnt[i]+=cnt[i-1];
+for(int i=1;i<=node;i++) q[cnt[node[i].len]--]=i;
 ```
 
