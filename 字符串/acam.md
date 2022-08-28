@@ -29,6 +29,35 @@ void build(){//build之后q数组里就是拓扑序
 		}
 	}
 }
+/*map写法
+struct node{
+	map<int,int> ch;
+	int fail;
+}tr[M];
+void insert(){
+	for(int i=0;s[i];i++){
+		int tmp=s[i]-'a';
+		if(tr[u].ch.count(tmp)==0)
+			tr[u].ch[tmp]=++idx;
+		u=tr[u].ch[tmp];
+	}
+}
+void build(){//build之后q数组里就是拓扑序
+	int hh=0,tt=-1;
+	for(auto it=tr[0].ch.begin();it!=tr[0].ch.end();it++)
+		q[++tt]=it->second;
+	while(hh<=tt){
+		auto t=q[hh++];
+		for(auto it=tr[t].ch.begin();it!=tr[t].ch.end();it++){
+			int j=tr[t].fail;
+			while(j&&!tr[j].ch.count(it->first)) j=tr[j].fail;
+			if(tr[j].ch.count(it->first)) j=tr[j].ch[it->first];
+			tr[it->second].fail=j;
+			q[++tt]=it->second;
+		}
+	}
+}
+*/
 //trie图
 struct node{
 	int ch[26],fail;
