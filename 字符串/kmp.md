@@ -42,3 +42,24 @@ void exkmp(char *a, char *b){
 }
 ```
 
+## KMP自动机
+
+```cpp
+int ne[N],pre[N],stk[N],top;
+void add(int x){
+	int j=top;
+	while(j&&stk[ne[j]+1]!=x) j=pre[j];
+	stk[++top]=x,j=ne[j]+1;
+	if(top==1) ne[1]=pre[1]=0;
+	else if(stk[j]==x){
+		ne[top]=j;
+		if(stk[ne[j]+1]==stk[j+1]) pre[top]=pre[j];
+		else pre[top]=j;
+	}
+	else ne[top]=pre[top]=0;
+}
+void del(){
+	top--;
+}
+```
+
