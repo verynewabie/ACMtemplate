@@ -1,7 +1,7 @@
 ## 有向图缩点
 
 ```c++
-int cnt,sz[N],timestamp,id[N],stk[N],top,dfn[N],low[N];
+int cnt,sz[N],timestamp,id[N],stk[N],top,dfn[N],low[N];//连通图tarjan完从cnt到1遍历即是拓扑序
 vector<int> to[N];
 bool st[N];
 void tarjan(int u){
