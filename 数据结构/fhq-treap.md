@@ -4,7 +4,7 @@
 #define ls tr[u].l 
 #define rs tr[u].r 
 mt19937 rnd(random_device{}());
-int idx,root;
+int idx,rt;
 struct node{
 	int l,r,sz,val,key;
 }tr[N];
@@ -54,35 +54,35 @@ int kth(int u,int k){//查找第k小的地址
 }
 void insert(int a){
 	int x,y;
-	splitbyval(root,a,x,y);
-	root=merge(merge(x,new_node(a)),y);
+	splitbyval(rt,a,x,y);
+	rt=merge(merge(x,new_node(a)),y);
 }
 void del(int a){//只删除一个
 	int x,y,z;
-	splitbyval(root,a,x,z);
+	splitbyval(rt,a,x,z);
 	splitbyval(x,a-1,x,y);
 	y=merge(tr[y].l,tr[y].r);
-	root=merge(merge(x,y),z);
+	rt=merge(merge(x,y),z);
 }
 int query(int num){//查询num是第几小
 	int x,y;
-	splitbyval(root,num-1,x,y);
+	splitbyval(rt,num-1,x,y);
 	int ans=tr[x].sz+1;
-	root=merge(x,y);
+	rt=merge(x,y);
 	return ans;
 }
 int queryprev(int num){//查询num前驱(不等于num)的地址
 	int x,y;
-	splitbyval(root,num-1,x,y);
+	splitbyval(rt,num-1,x,y);
 	int ans=kth(x,tr[x].sz);
-	root=merge(x,y);
+	rt=merge(x,y);
 	return ans;
 }
 int querynext(int num){//后继
 	int x,y;
-	splitbyval(root,num,x,y);
+	splitbyval(rt,num,x,y);
 	int ans=kth(y,1);
-	root=merge(x,y);
+	rt=merge(x,y);
 	return ans;
 }
 ```
@@ -96,7 +96,7 @@ int querynext(int num){//后继
 using namespace std;
 mt19937 rnd(random_device{}());
 const int N=1e5+10;
-int idx,root,n,m;
+int idx,rt,n,m;
 struct node{
 	int l,r,sz,val,key;
 	bool lazy;
@@ -160,17 +160,17 @@ void dfs(int u){
 }
 int main(){
 	cin>>n>>m;
-	root=build(1,n);
+	rt=build(1,n);
 	while(m--){
 		int a,b;
 		cin>>a>>b;
 		int w,x,y,z;
-		splitbysize(root,b,w,x);
+		splitbysize(rt,b,w,x);
 		splitbysize(w,a-1,y,z);
 		calc(z);
-		root=merge(merge(y,z),x);
+		rt=merge(merge(y,z),x);
 	}
-	dfs(root);
+	dfs(rt);
 	return 0;
 }
 ```
