@@ -1,12 +1,9 @@
 ## 平衡树
 
 ```c++
-#include<bits/stdc++.h>
 #define ls tr[u].l 
 #define rs tr[u].r 
-using namespace std;
 mt19937 rnd(random_device{}());
-const int N=1e5+10;
 int idx,root;
 struct node{
 	int l,r,sz,val,key;
@@ -158,7 +155,7 @@ int build(int l,int r){
 void dfs(int u){
 	pushdown(u);
 	if(ls) dfs(ls);
-	if(u) cout<<tr[u].val<<" ";
+	cout<<tr[u].val<<" ";
 	if(rs) dfs(rs);
 }
 int main(){

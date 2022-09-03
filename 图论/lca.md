@@ -2,18 +2,18 @@
 
 ```c++
 int fa[N][16];
-int depth[N],q[N];
+int dep[N],q[N];
 vector<int> to[N];
 void bfs(int root){
-    memset(depth,0x3f,sizeof depth);
-    depth[0]=0,depth[root]=1;
+    memset(dep,0x3f,sizeof dep);
+    dep[0]=0,dep[root]=1;
     int hh=0,tt=0;
     q[0]=root;
     while(hh<=tt){
         int t=q[hh++];
         for(auto j:to[t]){
-            if(depth[j]>depth[t]+1){
-                depth[j]=depth[t]+1;
+            if(dep[j]>dep[t]+1){
+                dep[j]=dep[t]+1;
                 q[++tt]=j;
                 fa[j][0]=t;
                 for(int k=1;k<K;k++){
@@ -24,9 +24,9 @@ void bfs(int root){
     }
 }
 int lca(int a,int b){//一堆节点的lca为dfn最小的和dfn最大的两个点的lca
-    if(depth[a]<depth[b]) swap(a,b);
+    if(dep[a]<dep[b]) swap(a,b);
     for(int k=K-1;k>=0;k--){
-        if(depth[fa[a][k]]>=depth[b]){
+        if(dep[fa[a][k]]>=dep[b]){
             a=fa[a][k];
         }
     }

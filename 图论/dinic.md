@@ -1,6 +1,7 @@
+时间复杂度$O(n^{2}m)$，跑二分图是$O(m\sqrt n)$的
+
 ```c++
 //最大匹配数=最小点覆盖=总点数-最大独立集=总点数-最小路径覆盖
-//dinic跑二分图是msqrt(n)的
 int e[M],ne[M],h[N],idx,f[M],S,T;
 int dep[N],cur[N],hh,tt,q[N];
 void add(int a,int b,int c){
