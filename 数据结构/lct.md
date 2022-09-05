@@ -93,10 +93,3 @@ splay(x);
 tr[x].v=y;
 pushup(x);
 ```
-
-## fhq-treap版本
-
-```cpp
-
-```
-
