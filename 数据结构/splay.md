@@ -1,6 +1,6 @@
 ```c++
-#define lson tr[u].s[0]
-#define rson tr[u].s[1]
+#define ls tr[u].s[0]
+#define rs tr[u].s[1]
 const int N=1e5+10;//这是节点个数
 int root,idx,w[N];//root是根节点
 struct node{//根据value排序
@@ -9,12 +9,8 @@ struct node{//根据value排序
 }tr[N];
 //我们经常额外插入-INF和INF当作哨兵位，更方便
 void pushup(int u){
-	tr[u].sz=tr[lson].sz+tr[rson].sz+1;
+	tr[u].sz=tr[ls].sz+tr[rs].sz+1;
 }
-void pushdown(int u){
-	//只有存在该儿子时才pushdown
-}
-//rotate和splay一般不用pushdown，因为get_k和insert里面pushdown过了
 void rotate(int x){
 	int y=tr[x].p,z=tr[y].p;
 	tr[z].s[y==tr[z].s[1]]=x,tr[x].p=z;
@@ -38,11 +34,11 @@ int newnode(int val,int p){
 	int u=++idx;
 	tr[u].p=p;
 	tr[u].val=val;
+    return u;
 }
 int insert(int val){
 	int u=root,p=0;
 	while(u){
-		pushdown(u);
 		p=u;
 		u=tr[u].s[val>tr[u].val];
 	}
@@ -54,27 +50,25 @@ int insert(int val){
 int get(int val){//找到大于等于某个数的第一个数
 	int u=root,res;
 	while(u){
-		pushdown(u);
-		if(tr[u].val>=val) res=u,u=lson;
-		else u=rson;
+		if(tr[u].val>=val) res=u,u=ls;
+		else u=rs;
 	}
 	return res;
 }
 int get_kth(int k){//找到第k小的数对应节点编号
 	int u=root;
 	while(u){
-		pushdown(u);
-		if(tr[lson].sz>=k) u=lson;
-		else if(tr[lson].sz+1==k) return u;
-		else k-=tr[lson].sz+1,u=rson;
+		if(tr[ls].sz>=k) u=ls;
+		else if(tr[ls].sz+1==k) return u;
+		else k-=tr[ls].sz+1,u=rs;
 	}
 	return -1;
 }
 int build(int l,int r,int p){
 	int mid=l+r>>1;
 	int u=newnode(w[mid],p);
-	if(l<mid) lson=build(l,mid-1,u);
-	if(mid<r) rson=build(mid+1,r,u);
+	if(l<mid) ls=build(l,mid-1,u);
+	if(mid<r) rs=build(mid+1,r,u);
 	pushup(u);
 	return u;
 }
@@ -86,7 +80,7 @@ void del(int& root,int x){
 		else u=tr[u].s[0];
 	}
 	splay(u,0);
-	int l=tr[u].s[0],r=tr[u].s[1];
+	int l=ls,r=rs;
 	while(tr[l].s[1]) l=tr[l].s[1];
 	while(tr[r].s[0]) r=tr[r].s[0];
 	splay(l,0),splay(r,l);
