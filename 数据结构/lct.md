@@ -1,7 +1,7 @@
 ## splay版本
 
 ```c++
-struct Splay{
+struct node{
     int s[2],p,v;
     int sum,rev;
 }tr[N];
