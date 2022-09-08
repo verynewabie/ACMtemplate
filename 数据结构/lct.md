@@ -92,4 +92,28 @@ cut(x,y);
 splay(x);
 tr[x].v=y;
 pushup(x);
+//维护子树信息
+void link(int x,int y){
+    makeroot(x);
+    if(findroot(y)!=x){
+        splay(y);//考虑连接对y祖先的影响,需要先把y旋至根节点
+        tr[y].vtsum+=tr[x].sum;
+        tr[x].p=y;
+        pushup(y);
+    }
+}
+void access(int x){
+    int z=x;
+    for(int y=0;x;y=x,x=tr[x].p){
+        splay(x);
+        tr[x].vtsum+=tr[tr[x].s[1]].sum;
+        tr[x].s[1]=y;
+        tr[x].vtsum-=tr[tr[x].s[1]].sum;
+        pushup(x);
+    }
+    splay(z);
+}
+void pushup(int u){
+    tr[u].sum=tr[tr[u].s[0]].sum+tr[tr[u].s[1]].sum+1+tr[u].vtsum;
+}
 ```
