@@ -24,8 +24,6 @@ struct ODT {
 	}
 	void assign(int l, int r, int x) {
 		auto itr = split(r + 1), itl = split(l);
-		for (auto it = itl; it != itr; ++it)
-			modify(root, 1, n, it->_l, it->_r, tag[it->_val] - tag[x]);
 		s.erase(itl, itr);
 		s.insert(node(l, r, x));
 	}
