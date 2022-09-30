@@ -62,8 +62,8 @@ const int mod=998244353,G=3,Gi=332748118;
 int lena,lenb;
 int limit=1;
 int L;
-int R[N],ans[N];
-int a[N],b[N];
+int R[N];
+int A[N],B[N];
 void NTT(int* A,int type){
 	for(int i=0;i<limit;i++)if(i<R[i])swap(A[i],A[R[i]]);
 	for(int mid=1;mid<limit;mid<<=1){
@@ -83,16 +83,16 @@ void NTT(int* A,int type){
 		for(int i=0;i<limit;i++) A[i]=1ll*A[i]*limit_inv%mod;
 	}
 }//代码实现上和FFT相差无几
-void poly_mul(int* a, int* b,int deg){//a是0~lena次的数组,b是0~lenb次的数组,deg是lena+lenb
+void poly_mul(int* A, int* B,int deg){//a是0~lena次的数组,b是0~lenb次的数组,deg是lena+lenb
 	for(limit=1,L=0;limit<=deg;limit<<=1)L++;
-	for(int i=lena+1;i<limit;i++) a[i]=0;
-	for(int i=lenb+1;i<limit;i++) b[i]=0;
+	for(int i=lena+1;i<limit;i++) A[i]=0;
+	for(int i=lenb+1;i<limit;i++) B[i]=0;
 	for(int i=0;i<limit;i++)R[i]=(R[i>>1]>>1)|((i&1)<<(L-1));
-	NTT(a,1);
-	NTT(b,1);
-	for(int i=0;i<limit;i++)a[i]=1ll*a[i]*b[i]%mod;
-	NTT(a,-1);
-	for(int i=0;i<=lena+lenb;i++) ans[i]=a[i];
+	NTT(A,1);
+	NTT(B,1);
+	for(int i=0;i<limit;i++)A[i]=1ll*A[i]*B[i]%mod;
+	NTT(A,-1);
+	//答案存储在A数组中
 }
 ```
 
