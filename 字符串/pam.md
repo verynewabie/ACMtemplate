@@ -17,7 +17,7 @@ struct pam{
 			tr[pos].ch[cast[s[i]]]=cnt;
 			tr[cnt].len=tr[pos].len+2;
 			//tr[cnt].num=tr[tr[cnt].fail].num+1;更新该位置结尾的回文子串个数
-            /*求trans
+            /*求trans,即小于等于当前节点长度一半的最长回文后缀
 			if(tr[cnt].len<=2) tr[cnt].trans=tr[cnt].fail;
 			else{
 				int tmp=tr[pos].trans;

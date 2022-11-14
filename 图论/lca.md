@@ -1,7 +1,7 @@
 ## 倍增
 
 ```c++
-int fa[N][16];
+int fa[N][K];
 int dep[N],q[N];
 vector<int> to[N];
 void bfs(int root){
