@@ -1,7 +1,7 @@
 ## 字符串哈希
 
 ```cpp
-pii mod={1e9+9,1e9+7},base={127,131};//1610612741
+pii mod={1e9+9,1e9+7},base={127,131};//1610612741 1e16+61
 pii operator+(pii a,pii b){
     return {(a.x+b.x)%mod.x,(a.y+b.y)%mod.y};
 }
@@ -21,6 +21,17 @@ void init(int tot){
         b[i]=b[i-1]*base;
     }
 }
+/*
+或者模数取1e18+9，这样来算乘法
+constexpr i64 mul(i64 a, i64 b, i64 p) {
+    i64 res = a * b - i64(1.L * a * b / p) * p;
+    res %= p;
+    if (res < 0) {
+        res += p;
+    }
+    return res;
+}
+*/
 ```
 
 ## unordered_map重载
@@ -47,5 +58,39 @@ pii quehash(int u,int l,int r){
 	else if(l>mid) return quehash(u<<1|1,l,r);
 	else return quehash(u<<1,l,r)*b[min(r,tr[u].r)-mid]+quehash(u<<1|1,l,r);//这种写法简便
 }
+```
+
+## 手写哈希表
+
+```cpp
+struct Hash_Table
+{
+    int h[NN], ne[MM], idx;
+    ull state[MM];
+    int val[MM];
+    void init()
+    {
+        idx = 0, memset(h, -1, sizeof h);
+    }
+
+    void push(ull s, int v)
+    {
+        int x = s % NN;
+        for (int i = h[x]; ~i; i = ne[i])
+            if (state[i] == s)
+                return val[i] += v, void();
+        state[idx] = s, val[idx] = v;
+        ne[idx] = h[x], h[x] = idx++;
+    }
+
+    int ask(ull s)
+    {
+        int x = s % NN;
+        for (int i = h[x]; ~i; i = ne[i])
+            if (state[i] == s)
+                return val[i];
+        return 0;
+    }
+} h;
 ```
 

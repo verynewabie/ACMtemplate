@@ -90,5 +90,6 @@ ll dfscnt(int u){
 for(int i=1;i<=node;i++) cnt[node[i].len]++;
 for(int i=1;i<=node;i++) cnt[i]+=cnt[i-1];
 for(int i=1;i<=node;i++) q[cnt[node[i].len]--]=i;
+//若要求endpos集合,extends[i]之后tr[last].endpos.insert(i),然后dfs fail树的同时线段树合并即可
 ```
 

@@ -110,7 +110,7 @@ void tarjan(int u,int from){
             tarjan(j,i);
             low[u]=min(low[u],low[j]);
             if(dfn[u]<low[j]){
-                st[i]=st[i^1]=1;
+                st[i]=st[i^1]=1;//标记桥
             }
         }
         else if(i!=(from^1))low[u]=min(low[u],dfn[j]);//注意优先级问题
@@ -132,6 +132,69 @@ int main(){
         int a=e[i],b=e[i^1];
         if(id[a]!=id[b]) add_c(id[a],id[b]);
     }
+}
+```
+
+## 圆方树
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 1e6 + 10;
+
+int n, m, cnt;
+vector<int> to[N], tree[N * 2]; // 原图，圆方树
+
+int dfn[N], low[N], dfc;
+int stk[N], top;
+
+void tarjan(int u)
+{
+    low[u] = dfn[u] = ++dfc; // low 初始化为当前节点 dfn
+    stk[++top] = u;          // 加入栈中
+    for (auto v : to[u])
+    { // 遍历 u 的相邻节点
+        if (!dfn[v])
+        {                                 // 如果未访问过
+            tarjan(v);                    // 递归
+            low[u] = min(low[u], low[v]); // 未访问的和 low 取 min
+            if (low[v] == dfn[u])
+            {          // 标志着找到一个以 u 为根的点双连通分量
+                ++cnt; // 增加方点个数
+                // 将点双中除了 u 的点退栈，并在圆方树中连边
+                for (int x = 0; x != v; --top)
+                {
+                    x = stk[top];
+                    tree[cnt].push_back(x);
+                    tree[x].push_back(cnt);
+                }
+                // 注意 u 自身也要连边（但不退栈）
+                tree[cnt].push_back(u);
+                tree[u].push_back(cnt);
+            }
+        }
+        else
+            low[u] = min(low[u], dfn[v]); // 已访问的和 dfn 取 min
+    }
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    cnt = n; // 点双 / 方点标号从 N 开始
+    for (int i = 1; i <= m; ++i)
+    {
+        int u, v;
+        scanf("%d%d", &u, &v);
+        to[u].push_back(v); // 加双向边
+        to[v].push_back(u);
+    }
+    // 处理非连通图
+    for (int u = 1; u <= n; ++u)
+        if (!dfn[u])
+            tarjan(u), --top;
+    // 注意到退出 Tarjan 时栈中还有一个元素即根，将其退栈
+    return 0;
 }
 ```
 

@@ -1,3 +1,5 @@
+
+
 ## 动态插入型
 
 ```c++
@@ -124,7 +126,7 @@ bool cmp(const point& a,const point& b){
 int dist(const point& a,const point& b){
 	return abs(a.x-b.x)+abs(a.y-b.y);
 }
-int calc(const node& u,const point& p){//计算点到矩阵的估算距离
+int calc(const node& u,const point& p){//计算点到矩阵的估算最小距离
 	int x=p.x,y=p.y;
 	return max(0,u.x0-x)+max(0,u.y0-y)+max(0,x-u.x1)+max(0,y-u.y1);
 }
@@ -325,3 +327,6 @@ int main(){
 }
 ```
 
+$rebuild:nlog\ n$
+
+$query/insert:n^{1-\frac{1}{k}}$

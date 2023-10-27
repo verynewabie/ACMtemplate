@@ -15,7 +15,7 @@ void init(){
 void manacher(){
     int maxr=0,mid;//maxr是当前所有回文串的最右端,mid是该回文串的中心
     for(int i=1;i<m;i++){
-        if(i<maxr) p[i]=min(p[mid*2-i],maxr-i+1);
+        if(i<maxr) p[i]=min(p[mid*2-i],maxr-i+1);//继承mid*2-i的回文半径,同时右边不能超过maxr
         else p[i]=1;
         while(b[i-p[i]]==b[i+p[i]]) p[i]++;
         if(i+p[i]-1>maxr){

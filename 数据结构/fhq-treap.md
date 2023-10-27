@@ -13,7 +13,7 @@ void pushup(int u){
 }
 int new_node(int v){
 	idx++;
-	tr[idx]={0,0,1,v,rnd()};
+	tr[idx]={0,0,1,v,(int)rnd()};
 	return idx;
 }
 int merge(int a,int b){
