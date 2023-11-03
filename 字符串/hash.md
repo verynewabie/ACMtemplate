@@ -1,7 +1,7 @@
 ## 字符串哈希
 
 ```cpp
-pii mod={1e9+9,1e9+7},base={127,131};//1610612741 1e16+61
+pii mod={1e9+9,1e9+7},base={127,131};//1610612741 1e16+61 467
 pii operator+(pii a,pii b){
     return {(a.x+b.x)%mod.x,(a.y+b.y)%mod.y};
 }
@@ -23,8 +23,8 @@ void init(int tot){
 }
 /*
 或者模数取1e18+9，这样来算乘法
-constexpr i64 mul(i64 a, i64 b, i64 p) {
-    i64 res = a * b - i64(1.L * a * b / p) * p;
+ll mul(ll a, ll b, ll p) {
+    ll res = a * b - ll(1.L * a * b / p) * p;
     res %= p;
     if (res < 0) {
         res += p;
